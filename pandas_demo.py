@@ -42,6 +42,8 @@ def demo_01():
     print(food_info["NDB_No"]) # 查看数据NDB_No列
     print(food_info[["Shrt_Desc","Energ_Kcal"]]) # 查看数据"Shrt_Desc","Energ_Kcal"列
 
+    # 查看数据集的某一行某一列
+    print(food_info.loc[3,"Shrt_Desc"])
 
     # 获取所有以g（克）为单位的数据
     col_names = food_info.columns.tolist() # 数据列名，转换为list类型
@@ -97,6 +99,8 @@ def demo_02():
     # 按某列列值排序，ascending=False降序排列，默认为升序，inplace=True覆盖原dataFrame
     food_info.sort_values("Sodium_(mg)", inplace=True, ascending=False)
     print(food_info["Sodium_(mg)"])
+    food_info_01 = food_info.reset_index(drop=True) # 重置排序索引
+    print(food_info_01)
 
 
 def demo_03():
@@ -170,8 +174,67 @@ def demo_03():
     port_stats = titanic_survival.pivot_table(index="Embarked", values=["Fare", "Survived"], aggfunc=np.sum)
     print(port_stats)
 
+    # 删除含有缺失值的数据行
+    drop_na_columns = titanic_survival.dropna(axis=1)
+    print(drop_na_columns)
+
+    # 删除"Age", "Sex"列上含有缺失值的行
+    new_titanic_survival = titanic_survival.dropna(axis=0, subset=["Age", "Sex"])
+    print(new_titanic_survival)
+
+def demo_04():
+    '''
+    自定义函数
+    :return:
+    '''
+
+    # 读取数据（泰坦尼克号乘客信息）
+    titanic_survival = pd.read_csv("titanic_train.csv")
+
+
+    def get_100_row(data):
+        '''
+        取出数据集的第一百条数据
+        :param data: 数据集
+        :return:
+        '''
+        item = data.loc[99]
+        return item
+    print(titanic_survival.apply(get_100_row))
+
+
+    def not_nul_count(data):
+        '''
+        统计缺失值数量
+        :param data:
+        :return:
+        '''
+        data_null_boolean = pd.isnull(data) # 获得缺失值布尔集
+        data_null = data[data_null_boolean] # 获取布尔集为True的数据
+        return len(data_null) # 返回数据长度
+    print(titanic_survival.apply(not_nul_count)) # 二维数组，显示每列缺失值数量
+
+
+    def which_class(data):
+        '''
+        "Pclass"列数据对应显示为其他值
+        :param data:
+        :return:
+        '''
+        pclass = data["Pclass"]
+        if pd.isnull(pclass):
+            return "Unknown"
+        elif pclass == 1:
+            return "First Class"
+        elif pclass == 2:
+            return "Second Class"
+        elif pclass == 3:
+            return "Third Class"
+    print(titanic_survival.apply(which_class, axis=1)) # axis=1,按行迭代
+
 
 if __name__ == "__main__":
     # demo_01()
     # demo_02()
-    demo_03()
+    # demo_03()
+    demo_04()
