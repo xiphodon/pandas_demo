@@ -294,10 +294,44 @@ def demo_05():
     print(rt_mean)
 
 
+def demo_06():
+    '''
+    pandas库数据结构DataFrame
+    :return:
+    '''
+    # 获取数据
+    fandango = pd.read_csv("fandango_score_comparison.csv")
+    print(type(fandango))
+
+    # 指定索引
+    data = fandango.set_index("FILM", drop=False) # 指定电影名字为索引，drop=False表示不在值域中把“FILM”删掉
+    print(data.index) # 返回一维数组
+
+    # 通过索引取数据
+    print(data.loc["Cinderella (2015)"]) # 指定取值
+    print(data["Cinderella (2015)":"Unbroken (2014)"]) # 范围取值
+    print(data.loc["Cinderella (2015)":"Unbroken (2014)"]) # 范围取值（同上）
+
+    # 取出类型中为float64的数据
+    types = data.dtypes
+    print(types)
+    float64_columns = types[types.values == "float64"]._index # 获得类型为float64的数据的索引
+    data_float64 = data[float64_columns] # 获得类型中为float64的数据
+    print(data_float64)
+
+    # 求float64数据集中每一列的方差
+    print(data_float64.apply(lambda x:np.std(x)))
+
+    # float64数据集中指定列，横向求方差
+    data_float64_h = data_float64[["RT_user_norm","Metacritic_user_nom"]]
+    print(data_float64_h.apply(lambda x:np.std(x), axis=1))
+
+
 
 if __name__ == "__main__":
     # demo_01()
     # demo_02()
     # demo_03()
     # demo_04()
-    demo_05()
+    # demo_05()
+    demo_06()
