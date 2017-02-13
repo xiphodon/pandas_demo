@@ -54,5 +54,53 @@ def demo_01():
     print(gram_data.head(3)) # 查看前3行
 
 
+def demo_02():
+    '''
+    数据计算与排序
+    :return:
+    '''
+    # csv数据读取
+    food_info = pd.read_csv("food_info.csv")
+
+    # 对某列数据加减乘除操作
+    print(food_info["Iron_(mg)"])
+    div_1000 = food_info["Iron_(mg)"] / 1000
+    print(div_1000)
+    add_100 = food_info["Iron_(mg)"] + 100
+    print(add_100)
+    sub_100 = food_info["Iron_(mg)"] - 100
+    print(sub_100)
+    mult_2 = food_info["Iron_(mg)"] * 2
+    print(mult_2)
+
+    # 保存计算好的新列（列名：Iron_(g)）
+    food_info["Iron_(g)"] = div_1000
+    print(food_info["Iron_(g)"])
+
+    # 两列数据对应加减乘除
+    water_energy_add = 2 * food_info["Water_(g)"] + food_info["Energ_Kcal"] / 0.75
+    print(water_energy_add)
+    water_energy_sub = 2 * food_info["Water_(g)"] - food_info["Energ_Kcal"] + 20
+    print(water_energy_sub)
+    water_energy_mult = food_info["Water_(g)"] * food_info["Energ_Kcal"]
+    print(water_energy_mult)
+    water_energy_div = food_info["Water_(g)"] / food_info["Energ_Kcal"]
+    print(water_energy_div)
+
+    # 某列数据归一化（归一化的一种）并保存
+    food_info["Normalized_Protein"] = food_info["Protein_(g)"] / food_info["Protein_(g)"].max()
+    print(food_info["Normalized_Protein"])
+
+    # 数据排序
+    print(food_info["Sodium_(mg)"])
+    # 按某列列值排序，ascending=False降序排列，默认为升序，inplace=True覆盖原dataFrame
+    food_info.sort_values("Sodium_(mg)", inplace=True, ascending=False)
+    print(food_info["Sodium_(mg)"])
+
+
+
+
+
 if __name__ == "__main__":
-    demo_01()
+    # demo_01()
+    demo_02()
