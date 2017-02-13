@@ -233,8 +233,71 @@ def demo_04():
     print(titanic_survival.apply(which_class, axis=1)) # axis=1,按行迭代
 
 
+def demo_05():
+    '''
+    pandas库数据结构Series
+    :return:
+    '''
+
+    # 获取数据
+    fandango = pd.read_csv("fandango_score_comparison.csv")
+    print(fandango.head())
+
+    # 获取电影名字列数据
+    series_film = fandango["FILM"]
+    print(series_film.head())
+
+    # 获取电影评分列数据
+    series_rt = fandango["RottenTomatoes"]
+    print(series_rt.head())
+
+    film_names = series_film.values # 取出电影名字值（一维数组）
+    rt_scores = series_rt.values # 取出电影分值（一维数组）
+
+    print(film_names)
+    print(rt_scores)
+
+    # 以电影名字为索引，电影分值为值，创建Series
+    series_custom = pd.Series(rt_scores, index=film_names)
+    print(series_custom)
+    # 通过电影名字索引获取电影分值
+    print(series_custom[["Cinderella (2015)","Unbroken (2014)"]])
+    print(series_custom[5:10]) # 仍然可以通过行号取值
+
+    # 按索引排序
+    index = series_custom.index.tolist() # 获取索引列表
+    print(index)
+    sorted_index = sorted(index) # 排序
+    sorted_by_index = series_custom.reindex(sorted_index) # 用排序好的索引列表从新定义索引
+    print(sorted_by_index)
+
+    # 按值排序，按索引排序（同上）
+    sort_series_01 = series_custom.sort_values()
+    sort_series_02 = series_custom.sort_index()
+    print(sort_series_01)
+    print(sort_series_02)
+
+    # 支持numpy科学计算操作
+    print(np.add(series_custom, series_custom))
+    print(np.sin(series_custom))
+    print(np.max(series_custom))
+
+    # 筛选电影评分大于50的（同numpy数组操作）
+    print(series_custom[series_custom > 50])
+    # 筛选电影评分大于50小于75的（同numpy数组操作）
+    print(series_custom[(series_custom > 50) & (series_custom < 75)])
+
+    # 以电影名字为索引，分别以"RottenTomatoes"和"RottenTomatoes_User"为值，创建两个Series
+    rt_critics = pd.Series(fandango["RottenTomatoes"].values, index=fandango["FILM"])
+    rt_users = pd.Series(fandango["RottenTomatoes_User"].values, index=fandango["FILM"])
+    rt_mean = (rt_critics + rt_users) / 2 # 两个Series进行值操作
+    print(rt_mean)
+
+
+
 if __name__ == "__main__":
     # demo_01()
     # demo_02()
     # demo_03()
-    demo_04()
+    # demo_04()
+    demo_05()
