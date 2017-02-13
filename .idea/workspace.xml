@@ -18,18 +18,20 @@
       <file leaf-file-name="pandas_demo.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/pandas_demo.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="270">
-              <caret line="58" column="11" lean-forward="false" selection-start-line="58" selection-start-column="11" selection-end-line="58" selection-end-column="11" />
-              <folding />
+            <state relative-caret-position="180">
+              <caret line="171" column="0" lean-forward="true" selection-start-line="171" selection-start-column="0" selection-end-line="171" selection-end-column="0" />
+              <folding>
+                <element signature="e#223#242#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="food_info.csv" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/food_info.csv">
+      <file leaf-file-name="titanic_train.csv" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/titanic_train.csv">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="0">
-              <caret line="0" column="37" lean-forward="false" selection-start-line="0" selection-start-column="27" selection-end-line="0" selection-end-column="37" />
+              <caret line="0" column="36" lean-forward="false" selection-start-line="0" selection-start-column="33" selection-end-line="0" selection-end-column="36" />
               <folding />
             </state>
           </provider>
@@ -324,11 +326,21 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/titanic_train.csv">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="36" lean-forward="false" selection-start-line="0" selection-start-column="33" selection-end-line="0" selection-end-column="36" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/pandas_demo.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="270">
-          <caret line="58" column="11" lean-forward="false" selection-start-line="58" selection-start-column="11" selection-end-line="58" selection-end-column="11" />
-          <folding />
+        <state relative-caret-position="180">
+          <caret line="171" column="0" lean-forward="true" selection-start-line="171" selection-start-column="0" selection-end-line="171" selection-end-column="0" />
+          <folding>
+            <element signature="e#223#242#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

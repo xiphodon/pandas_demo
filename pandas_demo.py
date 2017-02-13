@@ -11,6 +11,7 @@
 
 
 import pandas as pd
+import numpy as np
 
 def demo_01():
     '''
@@ -98,9 +99,79 @@ def demo_02():
     print(food_info["Sodium_(mg)"])
 
 
+def demo_03():
+    '''
+    数据预处理
+    :return:
+    '''
 
+    # 读取数据（泰坦尼克号乘客信息）
+    titanic_survival = pd.read_csv("titanic_train.csv")
+    print(titanic_survival.head())
+
+    # 缺失值处理
+    age = titanic_survival["Age"] # 获取Age列数据
+    print(age.loc[0:10]) # 查看前10行数据
+    age_is_null = pd.isnull(age) # 获得Age列数据是否为空的数组
+    print(age_is_null)
+    age_null_true = age[age_is_null] # 查看Age列对应为空的数据
+    print(age_null_true)
+    age_null_count = len(age_null_true) # 统计Age列数据为空的个数
+    print(age_null_count)
+
+    # 取出Age列中不为空的数据(忽略缺失值)
+    real_ages = titanic_survival["Age"][age_is_null == False]
+    print(real_ages)
+
+    # 求平均年龄
+    mean_age = sum(real_ages) / len(real_ages)
+    print(mean_age)
+
+    # 对Age列非缺失值（忽略缺失值）进行平均值计算(意义同上)
+    correct_mean_age = titanic_survival["Age"].mean()
+    print(correct_mean_age)
+
+
+    # 对不同仓位等级（列名"Pclass"）的票价（列名"Fare"）计算均值
+    passenger_class = [1,2,3] # 定义仓位等级
+    fares_by_class = {} # 初始化不同仓位票价均值的存储容器——字典类型
+    for this_class in passenger_class:
+        # 获取符合当前仓位等级的所有数据集
+        pclass_rows = titanic_survival[titanic_survival["Pclass"] == this_class]
+        pclass_fares = pclass_rows["Fare"] # 获取数据集中的"Fare"列
+        fare_for_class = pclass_fares.mean() # 计算"Fare"列中数据均值（自动忽略缺失值）
+        fares_by_class[this_class] = fare_for_class # 将计算结果存储在字典中
+    print(fares_by_class) # 打印各仓位等级对应的平均票价
+
+    # 对不同仓位等级（列名"Pclass"）的票价（列名"Fare"）计算均值(同上)[aggfunc 默认为 np.mean]
+    passenger_class_1 = titanic_survival.pivot_table(index="Pclass", values="Fare", aggfunc=np.mean)
+    print(passenger_class_1)
+
+    # 对不同仓位等级（列名"Pclass"）的乘客年龄（列名"Age"）计算均值[aggfunc 默认为 np.mean]
+    passenger_age = titanic_survival.pivot_table(index="Pclass", values="Age")
+    print(passenger_age)
+
+    # 统计各个仓位等级的乘客的获救率
+    # 索引定为"Pclass"列，值为索引对应的"Survived"列的均值
+    passenger_survival = titanic_survival.pivot_table(index="Pclass", values="Survived", aggfunc=np.mean)
+    print(passenger_survival)
+
+    # 统计各个仓位等级的乘客的获救人数
+    # 索引定为"Pclass"列，值为索引对应的"Survived"列的求和
+    passenger_survival = titanic_survival.pivot_table(index="Pclass", values="Survived", aggfunc=np.sum)
+    print(passenger_survival)
+
+    # 统计男女的获救人数
+    # 索引定为"Sex"列，值为索引对应的"Survived"列的求和
+    passenger_survival = titanic_survival.pivot_table(index="Sex", values="Survived", aggfunc=np.sum)
+    print(passenger_survival)
+
+    # 统计各个上船地点（列名"Embarked"）票价总额和获救人数
+    port_stats = titanic_survival.pivot_table(index="Embarked", values=["Fare", "Survived"], aggfunc=np.sum)
+    print(port_stats)
 
 
 if __name__ == "__main__":
     # demo_01()
-    demo_02()
+    # demo_02()
+    demo_03()
